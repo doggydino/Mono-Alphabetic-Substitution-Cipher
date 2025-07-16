@@ -1,4 +1,5 @@
-data = {
+
+average_freq = {
     "A": .0757,
     "B": .0184,
     "C": .0409,
@@ -26,3 +27,13 @@ data = {
     "Y": .0163,
     "Z": .0047,
 }
+
+
+def calc_freq(ciphertext):
+    freq = dict()
+    for letter in ciphertext:
+        freq[letter] = round((freq.get(letter, 0) + 1) / len(ciphertext), 4)
+    for letter in freq:
+        print(f"Letter: {letter} Frequency: {freq[letter]}")
+    return freq
+
