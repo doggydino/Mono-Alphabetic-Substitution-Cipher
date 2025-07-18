@@ -1,28 +1,47 @@
 # Could use is close for comparison of values
-# plaintext = ''
+
+
+
+
 
 # Todo: Tune up probabilities
-def frequency_analysis(cipher_freq, eng_freq):
+def frequency_analysis(cipher_freq, eng_freq, **limiter):
     closest_match = {}
-    for cc, cf in cipher_freq.items():
-        cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
-        cm = cm.pop(0)
-        closest_match[cc] = cm[0]
-    return closest_match
+    if len(limiter) == 0:
+        for cc, cf in cipher_freq.items():
+            cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
+            cm = cm.pop(0)
+            closest_match[cc] = cm[0]
+        return closest_match
 
-# Todo: Clean up output
-def conflict_analysis(dictionary):
-    test = dict()
+    else:
+        for cc, cf in cipher_freq.items():
+            cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
+
+def find_conflicts(freq_dict):
+    counts = dict()
+    uniques = dict()
     conflicts = dict()
-    for k, v in dictionary.items():
-        if v in test.values():
+    for v in freq_dict.values():
+        counts[v] = counts.get(v, 0) + 1
+    for k, v in freq_dict.items():
+        if counts[v] > 1:
             conflicts[k] = v
         else:
-            test[k] = v
+            uniques[k] = v
     return conflicts
-# Todo: Write conflict resolution function
-def conflict_resolution():
-    pass
+
+
+def resolve_conflicts(func, key):
+    for i in func:
+        pass
+
+
+
+
+
+    # Todo: Clean up output
+
 
 # Todo: NOT MY CODE DELETE AND REMAKE LATER
 def dec(ciphertext, key):
@@ -36,11 +55,12 @@ def dec(ciphertext, key):
   return plaintext
 
 # Todo: Fix look for grams and finish it
+# look for trigrams, digrams etc
 def look_for_grams(ciphertext:str, gram_amount:int):
     storage = dict()
     for i in ciphertext:
         a = ciphertext.index(i)
-        storage[a:a+gram_amount + 1] = storage.get(storage[a:a+gram_amount+1])
+        storage[a:a+gram_amount] = storage.get(storage[a:a+gram_amount])
     return storage
 
 

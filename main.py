@@ -1,10 +1,11 @@
 ciphertext = input("Please enter the Ciphertext: ")
+print()
 
 from data import calc_freq
-from decryption import frequency_analysis
+from decryption import *
 from data import average_freq
-from decryption import dec
-from decryption import look_for_grams
+
+
 
 
 
@@ -23,4 +24,4 @@ for k, v in key.items():
 
 print(dec(ciphertext, key))
 
-#print(look_for_grams(str(ciphertext), 3))
+find_conflicts(key)
