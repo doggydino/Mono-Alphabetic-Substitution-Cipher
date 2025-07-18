@@ -1,9 +1,6 @@
 # Could use is close for comparison of values
 
 
-
-
-
 # Todo: Tune up probabilities
 def frequency_analysis(cipher_freq, eng_freq, **limiter):
     closest_match = {}
@@ -13,7 +10,6 @@ def frequency_analysis(cipher_freq, eng_freq, **limiter):
             cm = cm.pop(0)
             closest_match[cc] = cm[0]
         return closest_match
-
     else:
         for cc, cf in cipher_freq.items():
             cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
@@ -37,12 +33,6 @@ def resolve_conflicts(func, key):
         pass
 
 
-
-
-
-    # Todo: Clean up output
-
-
 # Todo: NOT MY CODE DELETE AND REMAKE LATER
 def dec(ciphertext, key):
   plaintext = ""
@@ -62,7 +52,3 @@ def look_for_grams(ciphertext:str, gram_amount:int):
         a = ciphertext.index(i)
         storage[a:a+gram_amount] = storage.get(storage[a:a+gram_amount])
     return storage
-
-
-
-
