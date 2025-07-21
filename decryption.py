@@ -1,18 +1,19 @@
 # Could use is close for comparison of values
 
-
 # Todo: Tune up probabilities
 def frequency_analysis(cipher_freq, eng_freq, **limiter):
+    original = eng_freq
     closest_match = {}
     if len(limiter) == 0:
         for cc, cf in cipher_freq.items():
+            eng_freq = dict(eng_freq)
             cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
+            eng_freq = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
             cm = cm.pop(0)
+            eng_freq.pop(0)
             closest_match[cc] = cm[0]
         return closest_match
-    else:
-        for cc, cf in cipher_freq.items():
-            cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
+
 
 def find_conflicts(freq_dict):
     counts = dict()
@@ -44,11 +45,12 @@ def dec(ciphertext, key):
       plaintext += letter
   return plaintext
 
-# Todo: Fix look for grams and finish it
+# Todo: Fix look for trigrams and finish it
 # look for trigrams, digrams etc
-def look_for_grams(ciphertext:str, gram_amount:int):
+def look_for_trigrams(ciphertext:str):
     storage = dict()
-    for i in ciphertext:
-        a = ciphertext.index(i)
-        storage[a:a+gram_amount] = storage.get(storage[a:a+gram_amount])
-    return storage
+    for index, letter in enumerate(ciphertext):
+        if index == len(ciphertext) - 3:
+            storage[ciphertext[index: index + 4]] = storage.get(ciphertext[index:index + 4], 0) + 1
+            return storage
+        storage[ciphertext[index: index + 4]] = storage.get(ciphertext[index:index + 4], 0) + 1
