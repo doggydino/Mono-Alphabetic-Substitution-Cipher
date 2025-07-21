@@ -18,6 +18,9 @@ key = frequency_analysis(frequency, average_freq)
 for k, v in key.items():
     print(f"{k}: {v}")
 
-#print(look_for_trigrams(ciphertext))
+print(look_for_trigrams(ciphertext))
 
 print(dec(ciphertext, key))
+
+conflicts = find_conflicts(key)
+print(conflicts)

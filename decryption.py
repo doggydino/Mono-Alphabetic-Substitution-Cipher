@@ -1,16 +1,14 @@
-# Could use is close for comparison of values
 
 # Todo: Tune up probabilities
-def frequency_analysis(cipher_freq, eng_freq, **limiter):
-    original = eng_freq
+def frequency_analysis(cipher_freq, eng_freq, conflict="", **limiter):
     closest_match = {}
-    if len(limiter) == 0:
+    if len(conflict) == 0:
         for cc, cf in cipher_freq.items():
             eng_freq = dict(eng_freq)
             cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
             eng_freq = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
             cm = cm.pop(0)
-            eng_freq.pop(0)
+            #eng_freq.pop(0)
             closest_match[cc] = cm[0]
         return closest_match
 
@@ -28,10 +26,6 @@ def find_conflicts(freq_dict):
             uniques[k] = v
     return conflicts
 
-
-def resolve_conflicts(func, key):
-    for i in func:
-        pass
 
 
 # Todo: NOT MY CODE DELETE AND REMAKE LATER
@@ -51,6 +45,29 @@ def look_for_trigrams(ciphertext:str):
     storage = dict()
     for index, letter in enumerate(ciphertext):
         if index == len(ciphertext) - 3:
-            storage[ciphertext[index: index + 4]] = storage.get(ciphertext[index:index + 4], 0) + 1
+            if len(ciphertext) - index != 3:
+                continue
+            storage[ciphertext[index: index + 3]] = storage.get(ciphertext[index:index + 3], 0) + 1
+            storage = dict(filter(lambda i:i[1] > 1, storage.items()))
             return storage
-        storage[ciphertext[index: index + 4]] = storage.get(ciphertext[index:index + 4], 0) + 1
+        storage[ciphertext[index: index + 3]] = storage.get(ciphertext[index:index + 3], 0) + 1
+
+
+def look_for_digrams(ciphertext:str):
+    storage = dict()
+    for index, letter in enumerate(ciphertext):
+        if index == len(ciphertext) - 2:
+            if len(ciphertext) - index != 2:
+                continue
+            storage[ciphertext[index: index + 2]] = storage.get(ciphertext[index:index + 2], 0) + 1
+            storage = dict(filter(lambda i:i[1] > 1, storage.items()))
+            return storage
+        storage[ciphertext[index: index + 2]] = storage.get(ciphertext[index:index + 2], 0) + 1
+
+
+def find_max_in(dictionary:dict):
+    largest = 0
+    for keys, values in dictionary.items():
+        if values > largest:
+            largest = keys
+    return largest
