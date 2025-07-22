@@ -1,16 +1,5 @@
 
 # Todo: Tune up probabilities
-def frequency_analysis(cipher_freq, eng_freq, conflict="", **limiter):
-    closest_match = {}
-    if len(conflict) == 0:
-        for cc, cf in cipher_freq.items():
-            eng_freq = dict(eng_freq)
-            cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
-            eng_freq = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
-            cm = cm.pop(0)
-            #eng_freq.pop(0)
-            closest_match[cc] = cm[0]
-        return closest_match
 
 
 def find_conflicts(freq_dict):
@@ -26,7 +15,18 @@ def find_conflicts(freq_dict):
             uniques[k] = v
     return conflicts
 
-
+def frequency_analysis(cipher_freq, eng_freq, conflict=dict(), **limiter):
+    closest_match = {}
+    if len(conflict) == 0:
+        for cc, cf in cipher_freq.items():
+            eng_freq = dict(eng_freq)
+            cm = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
+            eng_freq = list(sorted(eng_freq.items(), key=lambda i: abs(i[1] - cf)))
+            cm = cm.pop(0)
+            #eng_freq.pop(0)
+            closest_match[cc] = cm[0]
+        confs = find_conflicts(closest_match)
+        return closest_match
 
 # Todo: NOT MY CODE DELETE AND REMAKE LATER
 def dec(ciphertext, key):
